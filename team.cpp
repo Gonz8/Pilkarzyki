@@ -4,7 +4,10 @@ Team::Team(bool host, const Pitch *pitch)
 {
     int width = pitch->sizeX;
     int height = pitch->sizeY;
+    up_side = host;
     if(host) {
+        name = "Czerwoni";
+        color = Qt::red;
         Player *newPlayer = new Goalkeeper();
         players.push_back(newPlayer);
         for(int i=0;i<2;i++) {
@@ -27,6 +30,8 @@ Team::Team(bool host, const Pitch *pitch)
         players[4]->x = 2*width/3;
         players[4]->y = 7*height/16;
     } else {
+        name = "Niebiescy";
+        color = Qt::blue;
         Player *newPlayer = new Goalkeeper();
         players.push_back(newPlayer);
         for(int i=0;i<2;i++) {
@@ -49,6 +54,8 @@ Team::Team(bool host, const Pitch *pitch)
         players[4]->x = 2*width/3;
         players[4]->y = 9*height/16;
     }
+    int high = Player::maxSkill; int low = Player::minSkill;
+    coopSkill = qrand() % ((high + 1) - low) + low;
 
 }
 

@@ -13,16 +13,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
    pitch.drawPitch(scene);
 
+   QColor Acolor = pitch.teamA->color;
+   QColor Bcolor = pitch.teamB->color;
    for(auto player : pitch.teamA->players){
-       QGraphicsEllipseItem *e = scene->addEllipse(player->x,player->y,player->radius, player->radius, QPen(Qt::red), QBrush(Qt::red));
+       QGraphicsEllipseItem *e = scene->addEllipse(player->x,player->y,player->radius, player->radius, QPen(Acolor), QBrush(Acolor));
        ellipses.push_back(e);
    }
    for(auto player : pitch.teamB->players){
-       QGraphicsEllipseItem *e = scene->addEllipse(player->x,player->y,player->radius, player->radius, QPen(Qt::blue), QBrush(Qt::blue));
+       QGraphicsEllipseItem *e = scene->addEllipse(player->x,player->y,player->radius, player->radius, QPen(Bcolor), QBrush(Bcolor));
        ellipses.push_back(e);
    }
    QGraphicsEllipseItem *e = scene->addEllipse(pitch.ball->x,pitch.ball->y,pitch.ball->radius, pitch.ball->radius, QPen(Qt::black), QBrush(Qt::white));
    ellipses.push_back(e);
+   ui->labelTeamA->setText(QString::fromStdString(pitch.teamA->name));
+   ui->labelTeamA->setStyleSheet("color: red");
+   ui->labelTeamB->setText(QString::fromStdString(pitch.teamB->name));
+   ui->labelTeamB->setStyleSheet("color: blue");
 
    connect(&pitch,SIGNAL(updated()),this,SLOT(updateView()));
 

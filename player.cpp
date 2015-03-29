@@ -3,7 +3,10 @@
 Player::Player()
 {
 }
+Player::~Player()
+{
 
+}
 void Player::updateState(const Pitch* pitch)
 {
     //Jako input masz pitch i na podstawie tego co jest na boisku czyli pozycja pilki pozycja swojej druzyny i pozycja przeciwnika

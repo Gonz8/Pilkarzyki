@@ -20,7 +20,10 @@ SOURCES += main.cpp\
     moveableitem.cpp \
     player.cpp \
     ball.cpp \
-    physicsengine.cpp
+    physicsengine.cpp \
+    defender.cpp \
+    goalkeeper.cpp \
+    striker.cpp
 
 HEADERS  += mainwindow.h \
     pitch.h \
@@ -28,6 +31,9 @@ HEADERS  += mainwindow.h \
     moveableitem.h \
     player.h \
     ball.h \
-    physicsengine.h
+    physicsengine.h \
+    defender.h \
+    goalkeeper.h \
+    striker.h
 
 FORMS    += mainwindow.ui

@@ -14,11 +14,11 @@ MainWindow::MainWindow(QWidget *parent) :
    pitch.drawPitch(scene);
 
    for(auto player : pitch.teamA->players){
-       QGraphicsEllipseItem *e = scene->addEllipse(player.x,player.y,player.radius, player.radius, QPen(Qt::red), QBrush(Qt::red));
+       QGraphicsEllipseItem *e = scene->addEllipse(player->x,player->y,player->radius, player->radius, QPen(Qt::red), QBrush(Qt::red));
        ellipses.push_back(e);
    }
    for(auto player : pitch.teamB->players){
-       QGraphicsEllipseItem *e = scene->addEllipse(player.x,player.y,player.radius, player.radius, QPen(Qt::blue), QBrush(Qt::blue));
+       QGraphicsEllipseItem *e = scene->addEllipse(player->x,player->y,player->radius, player->radius, QPen(Qt::blue), QBrush(Qt::blue));
        ellipses.push_back(e);
    }
 
@@ -46,11 +46,11 @@ void MainWindow::updateView()
   // scene->clear();
    int i = 0;
    for(const auto& player : pitch.teamA->players){
-       ellipses[i++]->setRect(player.x,player.y,player.radius, player.radius);
+       ellipses[i++]->setRect(player->x,player->y,player->radius, player->radius);
       // scene->addEllipse(player.x,player.y,player.radius, player.radius, QPen(Qt::red), QBrush(Qt::red));
    }
    for(const auto& player : pitch.teamB->players){
-       ellipses[i++]->setRect(player.x,player.y,player.radius, player.radius);
+       ellipses[i++]->setRect(player->x,player->y,player->radius, player->radius);
       // scene->addEllipse(player.x,player.y,player.radius, player.radius, QPen(Qt::blue), QBrush(Qt::blue));
    }
 
@@ -58,10 +58,10 @@ void MainWindow::updateView()
 
 void MainWindow::goStep(){
    for(auto& player : pitch.teamA->players){
-       player.updateState(&pitch);
+       player->updateState(&pitch);
    }
    for(auto& player : pitch.teamB->players){
-       player.updateState(&pitch);
+       player->updateState(&pitch);
    }
    pitch.ball.updateState(&pitch);
    engine.updatePitch(pitch);
@@ -83,6 +83,6 @@ void MainWindow::resume()
 void MainWindow::start()
 {
     timer.start();
-    gameTimer.start(10000);
+    gameTimer.start(20000);
     ui->pushButtonStart->setVisible(false);
 }

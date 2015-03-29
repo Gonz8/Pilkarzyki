@@ -7,6 +7,8 @@ class Defender : public Player
 {
 public:
     Defender();
+
+    virtual void updateState(const Pitch* pitch);
 };
 
 #endif // DEFENDER_H

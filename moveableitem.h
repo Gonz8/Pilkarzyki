@@ -12,7 +12,6 @@ public:
     float y;
     float xVelF;
     float yVelF;
-    static const int maxSpeed = 5;
 
     float radius;
 

@@ -17,7 +17,7 @@ public:
 
     Team *teamA;
     Team *teamB;
-    Ball ball;
+    Ball *ball;
 
     void drawPitch(QGraphicsScene*);
 

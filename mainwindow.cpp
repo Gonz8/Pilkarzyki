@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
        QGraphicsEllipseItem *e = scene->addEllipse(player->x,player->y,player->radius, player->radius, QPen(Qt::blue), QBrush(Qt::blue));
        ellipses.push_back(e);
    }
+   QGraphicsEllipseItem *e = scene->addEllipse(pitch.ball->x,pitch.ball->y,pitch.ball->radius, pitch.ball->radius, QPen(Qt::black), QBrush(Qt::white));
+   ellipses.push_back(e);
 
    connect(&pitch,SIGNAL(updated()),this,SLOT(updateView()));
 
@@ -53,6 +55,7 @@ void MainWindow::updateView()
        ellipses[i++]->setRect(player->x,player->y,player->radius, player->radius);
       // scene->addEllipse(player.x,player.y,player.radius, player.radius, QPen(Qt::blue), QBrush(Qt::blue));
    }
+   ellipses[i]->setRect(pitch.ball->x,pitch.ball->y,pitch.ball->radius, pitch.ball->radius);
 
 }
 
@@ -63,7 +66,7 @@ void MainWindow::goStep(){
    for(auto& player : pitch.teamB->players){
        player->updateState(&pitch);
    }
-   pitch.ball.updateState(&pitch);
+   pitch.ball->updateState(&pitch);
    engine.updatePitch(pitch);
 
    ui->labelGameTime->setText(QString::number(gameTimer.remainingTime()/1000.0));

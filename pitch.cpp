@@ -8,12 +8,14 @@ Pitch::Pitch(QObject *parent) :
     goalLength = 40;
     teamA = new Team(true,this);
     teamB = new Team(false,this);
+    ball = new Ball(this);
 }
 
 Pitch::~Pitch()
 {
     delete teamA;
     delete teamB;
+    delete ball;
 }
 
 void Pitch::drawPitch(QGraphicsScene * scene)

@@ -63,3 +63,13 @@ Team::~Team()
       delete player;
     }
 }
+bool Team::getSide() const
+{
+    return up_side;
+}
+
+void Team::setSide(bool value)
+{
+    up_side = value;
+}
+

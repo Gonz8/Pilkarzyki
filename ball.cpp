@@ -17,3 +17,13 @@ void Ball::updateState(const Pitch* pitch)
     qDebug()<<"Updating ball state"<<this;
 
 }
+bool Ball::getFree() const
+{
+    return free;
+}
+
+void Ball::setFree(bool value)
+{
+    free = value;
+}
+

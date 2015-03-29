@@ -7,11 +7,11 @@ class MoveableItem
 public:
     MoveableItem();
 
-
+    //pozniej protected
     float x;
     float y;
-    float xVelF;
-    float yVelF;
+    float xVel;
+    float yVel;
 
     float radius;
 

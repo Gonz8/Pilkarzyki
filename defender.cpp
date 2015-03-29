@@ -6,5 +6,5 @@ Defender::Defender()
 
 void Defender::updateState(const Pitch *pitch)
 {
-    qDebug()<<"Updating DEFENDER state, address"<<this;
+    qDebug()<<"Updating DEFENDER state, address"<<this->overall;
 }

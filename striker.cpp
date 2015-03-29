@@ -6,5 +6,5 @@ Striker::Striker()
 
 void Striker::updateState(const Pitch *pitch)
 {
-    qDebug()<<"Updating STRIKER state, address"<<this;
+    qDebug()<<"Updating STRIKER state, address"<<this->overall;
 }

@@ -18,8 +18,8 @@ void PhysicsEngine::updatePitch(Pitch& pitch)
 {
     for(auto& player: pitch.teamA->players){
 
-        player->x ++;
-        player->y ++;
+        player->x += player->xVel;
+        player->y += player->yVel;
         if(player->x < 0)
             player->x =0;
         if(player->x>pitch.sizeX)
@@ -32,8 +32,8 @@ void PhysicsEngine::updatePitch(Pitch& pitch)
 
     }
     for(auto& player: pitch.teamB->players){
-        player->x --;
-        player->y --;
+        player->x -= player->xVel;
+        player->y -= player->yVel;
         if(player->x < 0)
             player->x =0;
         if(player->x>pitch.sizeX)

@@ -1,7 +1,24 @@
 #include "player.h"
 #include <QDebug>
+#include <random>
+#include <math.h>
 Player::Player()
 {
+    inPoss = false;
+
+//    std::random_device rd;
+//    std::mt19937 gen(rd());
+//    std::uniform_int_distribution<int> distribution(Player::minSkill,Player::maxSkill);
+//    stamina = distribution(gen);
+//    strength = distribution(gen);
+//    skill = distribution(gen);
+
+    int high = Player::maxSkill; int low = Player::minSkill;
+    stamina = qrand() % ((high + 1) - low) + low;
+    skill = qrand() % ((high + 1) - low) + low;
+    strength = qrand() % ((high + 1) - low) + low;
+    overall = round((stamina+skill+strength)/3);
+
 }
 Player::~Player()
 {

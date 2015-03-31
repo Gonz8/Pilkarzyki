@@ -57,6 +57,12 @@ void PhysicsEngine::updatePitch(Pitch& pitch)
     if(pitch.ball->y>pitch.sizeY)
         pitch.ball->y = pitch.sizeY;
 
+//    if(pitch.ball->y == pitch.sizeY) {
+//        pitch.teamA->score = 1;
+//    }else if (pitch.ball->y == 0) {
+//        pitch.teamB->score = 1;
+//    }
+
     // Pilka ze nie moze wyjsc za boisko domyslnie
     pitch.update();
 }

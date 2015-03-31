@@ -15,6 +15,10 @@ public:
     bool up_side;
     QColor kitColor;
     bool inPoss;
+    //akcje
+    bool kicking;
+    bool passing;
+    //umiejetnosci
     float stamina;
     float strength;
     float skill; //techniczne umiejetnosci

@@ -86,6 +86,8 @@ void MainWindow::goStep(){
    engine.updatePitch(pitch);
 
    ui->labelGameTime->setText(QString::number(gameTimer.remainingTime()/1000.0));
+//   ui->labelScoreA->setText(QString::number(pitch.teamA->score));
+//   ui->labelScoreB->setText(QString::number(pitch.teamB->score));
 
 }
 

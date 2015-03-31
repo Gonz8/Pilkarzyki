@@ -15,7 +15,7 @@ public:
 
     float radius;
 
-
+    bool chance(float chance,int universe = 100);
     virtual void updateState(const Pitch* pitch) = 0;
 };
 

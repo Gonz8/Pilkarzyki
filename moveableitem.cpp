@@ -6,3 +6,8 @@ MoveableItem::MoveableItem()
     yVel = 0;
     xVel = 0;
 }
+
+bool MoveableItem::chance(float chance, int universe)
+{
+
+}

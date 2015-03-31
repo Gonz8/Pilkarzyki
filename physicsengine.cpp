@@ -45,6 +45,18 @@ void PhysicsEngine::updatePitch(Pitch& pitch)
             player->y = pitch.sizeY;
     }
 
+    pitch.ball->x += pitch.ball->xVel;
+    pitch.ball->y += pitch.ball->yVel;
+    if(pitch.ball->x < 0)
+        pitch.ball->x =0;
+    if(pitch.ball->x>pitch.sizeX)
+        pitch.ball->x = pitch.sizeX;
+
+    if(pitch.ball->y < 0)
+        pitch.ball->y = 0;
+    if(pitch.ball->y>pitch.sizeY)
+        pitch.ball->y = pitch.sizeY;
+
     // Pilka ze nie moze wyjsc za boisko domyslnie
     pitch.update();
 }

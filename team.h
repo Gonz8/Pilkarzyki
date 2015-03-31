@@ -17,6 +17,7 @@ public:
     std::vector<Player*> players;
     QColor color;
     float coopSkill;
+    int score;  //bramki zdobyte
     Team(bool host,const Pitch* pitch);
     Team();
     ~Team();

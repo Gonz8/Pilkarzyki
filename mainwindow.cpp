@@ -54,11 +54,21 @@ void MainWindow::updateView()
   // scene->clear();
    int i = 0;
    for(const auto& player : pitch.teamA->players){
-       ellipses[i++]->setRect(player->x,player->y,player->radius, player->radius);
+       ellipses[i]->setRect(player->x,player->y,player->radius, player->radius);
+       if(player->inPoss) {
+           ellipses[i++]->setPen(QPen(Qt::yellow));
+       } else {
+           ellipses[i++]->setPen(QPen(player->kitColor));
+       }
       // scene->addEllipse(player.x,player.y,player.radius, player.radius, QPen(Qt::red), QBrush(Qt::red));
    }
    for(const auto& player : pitch.teamB->players){
-       ellipses[i++]->setRect(player->x,player->y,player->radius, player->radius);
+       ellipses[i]->setRect(player->x,player->y,player->radius, player->radius);
+       if(player->inPoss) {
+           ellipses[i++]->setPen(QPen(Qt::yellow));
+       } else {
+           ellipses[i++]->setPen(QPen(player->kitColor));
+       }
       // scene->addEllipse(player.x,player.y,player.radius, player.radius, QPen(Qt::blue), QBrush(Qt::blue));
    }
    ellipses[i]->setRect(pitch.ball->x,pitch.ball->y,pitch.ball->radius, pitch.ball->radius);

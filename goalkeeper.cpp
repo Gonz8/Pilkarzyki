@@ -1,6 +1,6 @@
 #include "goalkeeper.h"
 #include <QDebug>
-Goalkeeper::Goalkeeper()
+Goalkeeper::Goalkeeper(bool host, QColor color) :Player(host,color)
 {
 }
 

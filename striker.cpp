@@ -1,7 +1,7 @@
 #include "striker.h"
 #include <pitch.h>
 #include <QDebug>
-Striker::Striker()
+Striker::Striker(bool host, QColor color) : Player(host,color)
 {
 }
 
@@ -52,14 +52,14 @@ void Striker::updateState(const Pitch *pitch)
         this->yVel = 0; this->xVel = 0;
     }
 
-//    if (this->xVel > this->maxSpeed)
-//        this->xVel = this->maxSpeed;
-//    if (this->yVel > this->maxSpeed)
-//        this->yVel = this->maxSpeed;
-//    if (this->xVel < (-1)*this->maxSpeed)
-//        this->xVel = (-1)*this->maxSpeed;
-//    if (this->yVel < (-1)*this->maxSpeed)
-//        this->yVel = (-1)*this->maxSpeed;
+    if (this->xVel > this->maxSpeed)
+        this->xVel = this->maxSpeed;
+    if (this->yVel > this->maxSpeed)
+        this->yVel = this->maxSpeed;
+    if (this->xVel < (-1)*this->maxSpeed)
+        this->xVel = (-1)*this->maxSpeed;
+    if (this->yVel < (-1)*this->maxSpeed)
+        this->yVel = (-1)*this->maxSpeed;
 
 
 }

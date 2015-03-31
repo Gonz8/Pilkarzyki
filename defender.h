@@ -6,7 +6,7 @@
 class Defender : public Player
 {
 public:
-    Defender();
+    Defender(bool host, QColor color);
 
     virtual void updateState(const Pitch* pitch);
 };

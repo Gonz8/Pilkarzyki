@@ -8,14 +8,14 @@ Team::Team(bool host, const Pitch *pitch)
     if(host) {
         name = "Czerwoni";
         color = Qt::red;
-        Player *newPlayer = new Goalkeeper();
+        Player *newPlayer = new Goalkeeper(host,color);
         players.push_back(newPlayer);
         for(int i=0;i<2;i++) {
-            Player *newPlayer = new Defender();
+            Player *newPlayer = new Defender(host,color);
             players.push_back(newPlayer);
         }
         for(int i=0;i<2;i++) {
-            Player *newPlayer = new Striker();
+            Player *newPlayer = new Striker(host,color);
             players.push_back(newPlayer);
         }
 
@@ -32,14 +32,14 @@ Team::Team(bool host, const Pitch *pitch)
     } else {
         name = "Niebiescy";
         color = Qt::blue;
-        Player *newPlayer = new Goalkeeper();
+        Player *newPlayer = new Goalkeeper(host,color);
         players.push_back(newPlayer);
         for(int i=0;i<2;i++) {
-            Player *newPlayer = new Defender();
+            Player *newPlayer = new Defender(host,color);
             players.push_back(newPlayer);
         }
         for(int i=0;i<2;i++) {
-            Player *newPlayer = new Striker();
+            Player *newPlayer = new Striker(host,color);
             players.push_back(newPlayer);
         }
 

@@ -6,7 +6,7 @@
 class Striker : public Player
 {
 public:
-    Striker();
+    Striker(bool host, QColor color);
 
     virtual void updateState(const Pitch* pitch);
 };

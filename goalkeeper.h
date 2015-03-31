@@ -6,7 +6,7 @@
 class Goalkeeper : public Player
 {
 public:
-    Goalkeeper();
+    Goalkeeper(bool host, QColor color);
 
     virtual void updateState(const Pitch* pitch);
 };

@@ -3,9 +3,11 @@
 #include <random>
 #include <math.h>
 #include <pitch.h>
-Player::Player()
+Player::Player(bool host, QColor color)
 {
     inPoss = false;
+    up_side = host;
+    kitColor = color;
 
     int high = Player::maxSkill; int low = Player::minSkill;
     stamina = qrand() % ((high + 1) - low) + low;

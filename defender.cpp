@@ -1,6 +1,6 @@
 #include "defender.h"
 #include <QDebug>
-Defender::Defender()
+Defender::Defender(bool host, QColor color) : Player(host,color)
 {
 }
 

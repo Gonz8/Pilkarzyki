@@ -6,5 +6,5 @@ Goalkeeper::Goalkeeper()
 
 void Goalkeeper::updateState(const Pitch *pitch)
 {
-    qDebug()<<"Updating GOALKEEPER state, address"<<this->overall;
+    //qDebug()<<"Updating GOALKEEPER state, address"<<this->xVel<<" yVel:"<<this->yVel;
 }

@@ -25,10 +25,10 @@ Team::Team(bool host, const Pitch *pitch)
         players[1]->y = height/5;
         players[2]->x = 2*width/3;
         players[2]->y = height/5;
-        players[3]->x = width/3;
-        players[3]->y = 7*height/16;
-        players[4]->x = 2*width/3;
-        players[4]->y = 7*height/16;
+        players[3]->x = width/2;
+        players[3]->y = height/2;
+        players[4]->x = 9*width/16;
+        players[4]->y = 15*height/32;
     } else {
         name = "Niebiescy";
         color = Qt::blue;

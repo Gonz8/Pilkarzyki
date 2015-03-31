@@ -2,16 +2,10 @@
 #include <QDebug>
 #include <random>
 #include <math.h>
+#include <pitch.h>
 Player::Player()
 {
     inPoss = false;
-
-//    std::random_device rd;
-//    std::mt19937 gen(rd());
-//    std::uniform_int_distribution<int> distribution(Player::minSkill,Player::maxSkill);
-//    stamina = distribution(gen);
-//    strength = distribution(gen);
-//    skill = distribution(gen);
 
     int high = Player::maxSkill; int low = Player::minSkill;
     stamina = qrand() % ((high + 1) - low) + low;
@@ -22,6 +16,20 @@ Player::Player()
 }
 Player::~Player()
 {
+
+}
+
+float Player::findBall(const Pitch *pitch)
+{
+    float speedRatio; //xVel/yVel
+    float xDiff = pitch->ball->x - this->x;
+    float yDiff = pitch->ball->y - this->y;
+    if(xDiff == 0 || yDiff == 0) {
+       speedRatio = 0;
+    }else{
+        speedRatio = (xDiff)/(yDiff);
+    }
+    return speedRatio;
 
 }
 void Player::updateState(const Pitch* pitch)

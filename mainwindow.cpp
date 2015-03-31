@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
    connect(&pitch,SIGNAL(updated()),this,SLOT(updateView()));
 
 
-   timer.setInterval(100);
+   timer.setInterval(200);
    connect(&timer,SIGNAL(timeout()),this,SLOT(goStep()));
    //timer.start(); //startuje zegar button START
    //gameTimer.start(10000);

@@ -8,7 +8,7 @@ class Player : public MoveableItem
 {
 public:
     std::string name;
-    static const int maxSpeed = 5;
+    static const int maxSpeed = 3;
     static const int maxSkill = 100;
     static const int minSkill = 40;
     bool inPoss;
@@ -19,7 +19,7 @@ public:
 
     Player();
     virtual ~Player();
-
+    float findBall(const Pitch *pitch);   //return speedRatio
     virtual void updateState(const Pitch* pitch);
 };
 

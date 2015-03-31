@@ -34,6 +34,40 @@ float Player::findBall(const Pitch *pitch)
     return speedRatio;
 
 }
+
+QPointF Player::findGoal(bool up, const Pitch *pitch)
+{
+    QPointF player(this->x,this->y);
+    if(up){
+        QPointF goalCenter(pitch->sizeX/2,pitch->sizeY);
+        QPointF diff;
+        diff = goalCenter - player;
+        return diff;
+    }
+    else {
+        QPointF goalCenter(pitch->sizeX/2,0);
+        QPointF diff;
+        diff = goalCenter - player;
+        return diff;
+    }
+}
+
+QPointF Player::findMyGoal(bool up, const Pitch *pitch)
+{
+    QPointF player(this->x,this->y);
+    if(up){
+        QPointF goalCenter(pitch->sizeX/2,0);
+        QPointF diff;
+        diff = goalCenter - player;
+        return diff;
+    }
+    else {
+        QPointF goalCenter(pitch->sizeX/2,pitch->sizeY);
+        QPointF diff;
+        diff = goalCenter - player;
+        return diff;
+    }
+}
 void Player::updateState(const Pitch* pitch)
 {
     //Jako input masz pitch i na podstawie tego co jest na boisku czyli pozycja pilki pozycja swojej druzyny i pozycja przeciwnika

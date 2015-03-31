@@ -3,6 +3,7 @@
 
 #include <string>
 #include <QColor>
+#include <QPointF>
 #include "moveableitem.h"
 
 class Player : public MoveableItem
@@ -27,6 +28,8 @@ public:
     Player(bool host, QColor color);
     virtual ~Player();
     float findBall(const Pitch *pitch);   //return speedRatio
+    QPointF findGoal(bool up, const Pitch *pitch);
+    QPointF findMyGoal(bool up, const Pitch *pitch);
     virtual void updateState(const Pitch* pitch);
 };
 

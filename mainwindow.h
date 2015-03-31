@@ -38,7 +38,7 @@ private:
     PhysicsEngine engine;
 
     QTimer timer;
-
+    int actualTime;
     QTimer gameTimer;
 };
 

@@ -9,7 +9,9 @@ void Striker::updateState(const Pitch *pitch)
 {
     qDebug()<<"Updating STRIKER state, xVel:"<<this->xVel<<" yVel:"<<this->yVel;
     float speedRatio = this->findBall(pitch);
-    qDebug()<<"SpeedRatio : "<<speedRatio;
+    QPointF goal = findGoal(this->up_side,pitch);
+
+    qDebug()<<"xDiff,yDiff : "<<(pitch->ball->x - this->x)<<","<<(pitch->ball->y - this->y);
     if(!this->inPoss) {
         if(pitch->ball->x > this->x) {
             if (this->xVel > 0) {
@@ -54,18 +56,35 @@ void Striker::updateState(const Pitch *pitch)
         }
         float xDiff = (pitch->ball->x - this->x);
         float yDiff = (pitch->ball->y - this->y);
-        if(xDiff < 0.5 && xDiff >(-0.5) && yDiff > (-0.5) && yDiff < 0.5){
+        if(xDiff < 3 && xDiff >(-3) && yDiff > (-3) && yDiff < 3){
             //dojdzie jeszcze sprawdzenie kto przejal
             this->inPoss = true;
             xVel = 0;
             if (up_side) {
-                yVel += 3;
+                yVel = 1.5;
             }
             else
                 yVel -= 0.2;
         }
     }
     else {  //w posiadaniu piłki
+        qDebug()<<"w posiadaniu (do bramki x,y : "<<goal.x()<<","<<goal.y()<<")";
+        if(this->kitColor == pitch->teamA->color) {
+            for(const auto& player : pitch->teamA->players){
+
+            }
+            for(const auto& player : pitch->teamB->players){
+
+            }
+        }
+        else {
+            for(const auto& player : pitch->teamB->players){
+
+            }
+            for(const auto& player : pitch->teamA->players){
+
+            }
+        }
 
     }
 

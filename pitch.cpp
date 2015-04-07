@@ -9,6 +9,12 @@ Pitch::Pitch(QObject *parent) :
     teamA = new Team(true,this);
     teamB = new Team(false,this);
     ball = new Ball(this);
+    for(auto& player : this->teamA->players){
+        player->oppGoalkeeper = this->teamB->players[0];
+    }
+    for(auto& player : this->teamB->players){
+        player->oppGoalkeeper = this->teamA->players[0];
+    }
 }
 
 Pitch::~Pitch()

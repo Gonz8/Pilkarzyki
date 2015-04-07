@@ -11,7 +11,25 @@ void Striker::updateState(const Pitch *pitch)
     float speedRatio = this->findBall(pitch);
     QPointF goal = findGoal(this->up_side,pitch);
 
-    qDebug()<<"xDiff,yDiff : "<<(pitch->ball->x - this->x)<<","<<(pitch->ball->y - this->y);
+
+    float xDiff = (pitch->ball->x - this->x);
+    float yDiff = (pitch->ball->y - this->y);
+    qDebug()<<"xDiff,yDiff : "<<xDiff<<","<<yDiff;
+    if(xDiff < 3 && xDiff >(-3) && yDiff > (-3) && yDiff < 3){
+        //dojdzie jeszcze sprawdzenie kto przejal
+        this->inPoss = true;
+        xVel = 0;
+        if (up_side) {
+            yVel = 1.5;
+        }
+        else
+            yVel -= 0.2;
+    } else{
+        //pozbywa sie pilki
+        this->inPoss = false;
+    }
+
+
     if(!this->inPoss) {
         if(pitch->ball->x > this->x) {
             if (this->xVel > 0) {
@@ -54,18 +72,7 @@ void Striker::updateState(const Pitch *pitch)
         }else{
             this->yVel = 0; this->xVel = 0;
         }
-        float xDiff = (pitch->ball->x - this->x);
-        float yDiff = (pitch->ball->y - this->y);
-        if(xDiff < 3 && xDiff >(-3) && yDiff > (-3) && yDiff < 3){
-            //dojdzie jeszcze sprawdzenie kto przejal
-            this->inPoss = true;
-            xVel = 0;
-            if (up_side) {
-                yVel = 1.5;
-            }
-            else
-                yVel -= 0.2;
-        }
+
     }
     else {  //w posiadaniu piłki
         qDebug()<<"w posiadaniu (do bramki x,y : "<<goal.x()<<","<<goal.y()<<")";

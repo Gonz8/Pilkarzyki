@@ -25,6 +25,8 @@ public:
     float skill; //techniczne umiejetnosci
     float overall;
 
+    Player *oppGoalkeeper;
+
     Player(bool host, QColor color);
     virtual ~Player();
     float findBall(const Pitch *pitch);   //return speedRatio

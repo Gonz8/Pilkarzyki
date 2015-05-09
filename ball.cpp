@@ -16,11 +16,14 @@ void Ball::updateState(const Pitch* pitch)
     // Jezeli pilke dotyka dwóch pilkarzy to wtedy pilka dostaje predkosc jakas wypadkową albo predkosc pilkarza o lepszym wspolczynniku
     // silay/kiwania whatever. Jezeli pilkarz obok pilki ma ustawione ze wykonuje kopniecie to np pilka zyskuje dodatkowa predkosc.
     qDebug()<<"Updating ball state"<<getFree();
+
+    //sprawdzenie stanu czy pilka w posiadaniu przez gracza
     for(const auto& player : pitch->teamA->players){
         if(player->inPoss) {
             setFree(false);
-            this->xVel = player->xVel;
-            this->yVel = player->yVel;
+            //nadaj jej predkosc gracza
+            this->xVel = player->getXVel();
+            this->yVel = player->getYVel();
             break;
         } else {
             setFree(true);
@@ -30,8 +33,8 @@ void Ball::updateState(const Pitch* pitch)
         for(const auto& player : pitch->teamB->players){
             if(player->inPoss) {
                 setFree(false);
-                this->xVel = player->xVel;
-                this->yVel = player->yVel;
+                this->xVel = player->getXVel();
+                this->yVel = player->getYVel();
                 break;
             } else {
                 setFree(true);
@@ -39,8 +42,16 @@ void Ball::updateState(const Pitch* pitch)
         }
     }
 
+    //sprawdzanie czy na pilce wykonywane sa akcje kicking/passing
+
 
 }
+
+Ball::~Ball()
+{
+
+}
+
 bool Ball::getFree() const
 {
     return free;

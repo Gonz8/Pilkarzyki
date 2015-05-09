@@ -24,8 +24,8 @@ Player::~Player()
 float Player::findBall(const Pitch *pitch)
 {
     float speedRatio; //xVel/yVel
-    float xDiff = pitch->ball->x - this->x;
-    float yDiff = pitch->ball->y - this->y;
+    float xDiff = pitch->ball->getX() - this->x;
+    float yDiff = pitch->ball->getY() - this->y;
     if(xDiff == 0 || yDiff == 0) {
        speedRatio = 0;
     }else{
@@ -69,33 +69,28 @@ QPointF Player::findMyGoal(bool up, const Pitch *pitch)
     }
 }
 
-Player *Player::nearest(const Player *ja, const Pitch *pitch)
+Player *Player::nearest(const Player *ja, const Pitch *pitch, bool myteam)
 {
     Player *teammate;
-    QPointF myPos(ja->x,ja->y);
     float distance;
     float close = 99999;
     if(ja->kitColor == pitch->teamA->color) {
-        for(const auto& player : pitch->teamA->players){
+        for(const auto& player : myteam ? pitch->teamA->players : pitch->teamB->players){
             if(player == ja){
                 continue;
             }
-            QPointF friendPos(player->x,player->y);
-            friendPos -= myPos;
-            distance = sqrt( pow(friendPos.x(),2) + pow(friendPos.y(),2) );
+            distance = MoveableItem::distance(ja->x,ja->y,player->x,player->y);
             if(distance < close){
                 teammate = player;
                 close = distance;
             }
         }
     } else {
-        for(const auto& player : pitch->teamB->players){
+        for(const auto& player : myteam ? pitch->teamB->players : pitch->teamA->players){
             if(player == ja){
                 continue;
             }
-            QPointF friendPos(player->x,player->y);
-            friendPos -= myPos;
-            distance = sqrt( pow(friendPos.x(),2) + pow(friendPos.y(),2) );
+           distance = MoveableItem::distance(ja->x,ja->y,player->x,player->y);
             if(distance < close){
                 teammate = player;
                 close = distance;

@@ -32,7 +32,7 @@ public:
     float findBall(const Pitch *pitch);   //return speedRatio
     QPointF findGoal(bool up, const Pitch *pitch);
     QPointF findMyGoal(bool up, const Pitch *pitch);
-    Player* nearest(const Player *ja, const Pitch *pitch);
+    Player* nearest(const Player *ja, const Pitch *pitch, bool myteam);
     virtual void updateState(const Pitch* pitch);
 };
 

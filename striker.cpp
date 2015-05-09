@@ -12,9 +12,11 @@ void Striker::updateState(const Pitch *pitch)
     QPointF goal = findGoal(this->up_side,pitch);
 
 
-    float xDiff = (pitch->ball->x - this->x);
-    float yDiff = (pitch->ball->y - this->y);
+    float xDiff = (pitch->ball->getX() - this->x);
+    float yDiff = (pitch->ball->getY() - this->y);
     qDebug()<<"xDiff,yDiff : "<<xDiff<<","<<yDiff;
+
+    //warunkowanie posiadania pilki
     if(xDiff < 3 && xDiff >(-3) && yDiff > (-3) && yDiff < 3){
         //dojdzie jeszcze sprawdzenie kto przejal
         this->inPoss = true;
@@ -29,9 +31,9 @@ void Striker::updateState(const Pitch *pitch)
         this->inPoss = false;
     }
 
-
+//zachowanie gdy w posiadaniu lub nie
     if(!this->inPoss) {
-        if(pitch->ball->x > this->x) {
+        if(pitch->ball->getX() > this->x) {
             if (this->xVel > 0) {
                 this->xVel += 0.1;
             } else {
@@ -49,12 +51,12 @@ void Striker::updateState(const Pitch *pitch)
         if(speedRatio != 0) {
            this->yVel = this->xVel/speedRatio;
         }
-        else if(pitch->ball->x != this->x){
+        else if(pitch->ball->getX() != this->x){
             this->yVel = 0;
         }
-        else if(pitch->ball->y != this->y){
+        else if(pitch->ball->getY() != this->y){
             this->xVel = 0;
-            if(pitch->ball->y > this->y) {
+            if(pitch->ball->getY() > this->y) {
                 if (this->yVel > 0) {
                     this->yVel += 0.1;
                 } else {
@@ -95,6 +97,8 @@ void Striker::updateState(const Pitch *pitch)
 
     }
 
+
+    //ograniczenia maksymalnej predkosci
     if (this->xVel > this->maxSpeed)
         this->xVel = this->maxSpeed;
     if (this->yVel > this->maxSpeed)

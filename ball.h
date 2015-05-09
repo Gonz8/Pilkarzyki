@@ -20,6 +20,7 @@ public:
     /// \param pitch this paramter is a poinetr to ...
     ///
     virtual void updateState(const Pitch* pitch);
+    virtual ~Ball();
     bool getFree() const;
     void setFree(bool value);
 

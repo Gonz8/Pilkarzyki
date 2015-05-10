@@ -35,6 +35,26 @@ float Player::findBall(const Pitch *pitch)
 
 }
 
+float Player::findBallDist(const Pitch *pitch)
+{
+    QPointF player(this->x,this->y);
+    QPointF ball(pitch->ball->getX(),pitch->ball->getY());
+    QPointF diff;
+    float distance;
+    diff = ball - player;
+    distance = sqrt( pow(diff.x(),2) + pow(diff.y(),2) );
+    return distance;
+}
+
+QPointF Player::findBallPt(const Pitch *pitch)
+{
+    QPointF player(this->x,this->y);
+    QPointF ball(pitch->ball->getX(),pitch->ball->getY());
+    QPointF diff;
+    diff = ball - player;
+    return diff;
+}
+
 QPointF Player::findGoal(bool up, const Pitch *pitch)
 {
     QPointF player(this->x,this->y);
@@ -107,4 +127,14 @@ void Player::updateState(const Pitch* pitch)
 
     //Output jest predkosc i ewentualnie dzialanie np kopniecie
     qDebug()<<"Updating player state, address"<<this<<pitch;
+}
+
+void Player::shoot()
+{
+    kicking = true;
+}
+
+void Player::pass()
+{
+    passing = true;
 }

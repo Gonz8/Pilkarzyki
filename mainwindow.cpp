@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
    connect(&pitch,SIGNAL(updated()),this,SLOT(updateView()));
 
 
-   timer.setInterval(200);
+   timer.setInterval(180);
    ui->pushButtonResume->setVisible(false);
    connect(&timer,SIGNAL(timeout()),this,SLOT(goStep()));
    //timer.start(); //startuje zegar button START
@@ -87,8 +87,17 @@ void MainWindow::goStep(){
    engine.updatePitch(pitch);
 
    ui->labelGameTime->setText(QString::number(90 - gameTimer.remainingTime()/1000.0));
-//   ui->labelScoreA->setText(QString::number(pitch.teamA->score));
-//   ui->labelScoreB->setText(QString::number(pitch.teamB->score));
+  // ui->labelScoreA->setText(QString::number(pitch.teamA->score));
+   //ui->labelScoreB->setText(QString::number(pitch.teamB->score));
+
+   //po strzelonej bramce zatrzymaj czas i rozpocznij mecz po chwili
+//       if(pitch.ball->getY() == pitch.sizeY) {
+//           pitch.teamA->score += 1;
+//           pause();
+//       }else if (pitch.ball->getY() == 0) {
+//           pitch.teamB->score += 1;
+//           pause();
+//       }
 
 }
 

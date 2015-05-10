@@ -1,4 +1,5 @@
 #include "moveableitem.h"
+#include <QDebug>
 
 MoveableItem::MoveableItem()
 {
@@ -9,7 +10,12 @@ MoveableItem::MoveableItem()
 
 bool MoveableItem::chance(float chance, int universe)
 {
-
+    if( qrand() % universe <= chance) {
+        qDebug() << " trafiony";
+        return true;
+    }
+    qDebug() << " PUUUDLO";
+    return false;
 }
 
 float MoveableItem::distance(float x1, float y1, float x2, float y2)

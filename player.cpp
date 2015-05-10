@@ -132,9 +132,11 @@ void Player::updateState(const Pitch* pitch)
 void Player::shoot()
 {
     kicking = true;
+    qDebug()<<this<<" shoot";
 }
 
 void Player::pass()
 {
     passing = true;
+    qDebug()<<this<<" pass";
 }

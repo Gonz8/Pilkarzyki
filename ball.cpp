@@ -15,7 +15,7 @@ void Ball::updateState(const Pitch* pitch)
     // Jako input tutaj jest sytuacja na boisku i teraz jezeli na przyklad pilke dotyka jakis player to wtedy pilka kopiuje jego predkosc
     // Jezeli pilke dotyka dwóch pilkarzy to wtedy pilka dostaje predkosc jakas wypadkową albo predkosc pilkarza o lepszym wspolczynniku
     // silay/kiwania whatever. Jezeli pilkarz obok pilki ma ustawione ze wykonuje kopniecie to np pilka zyskuje dodatkowa predkosc.
-    qDebug()<<"Updating ball state"<<getFree();
+    //qDebug()<<"Updating ball state"<<getFree();
 
     //sprawdzenie stanu czy pilka w posiadaniu przez gracza
     for(const auto& player : pitch->teamA->players){
@@ -43,7 +43,18 @@ void Ball::updateState(const Pitch* pitch)
     }
 
     //sprawdzanie czy na pilce wykonywane sa akcje kicking/passing
-
+    for(const auto& player : pitch->teamA->players){
+        if(player->passing){
+            qDebug()<<"PLAYER "<<player<<" PODAJE";
+        }
+    }
+    for(const auto& player : pitch->teamB->players){
+        if(player->passing){
+            qDebug()<<"PLAYER "<<player<<" PODAJE";
+            Player *teammate = player->nearest(player,pitch,true);
+            qDebug()<<" Do podania nadaje sie ZAWODNIK adress: "<<teammate;
+        }
+    }
 
 }
 

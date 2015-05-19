@@ -17,6 +17,8 @@ void Ball::updateState(const Pitch* pitch)
     // silay/kiwania whatever. Jezeli pilkarz obok pilki ma ustawione ze wykonuje kopniecie to np pilka zyskuje dodatkowa predkosc.
     //qDebug()<<"Updating ball state"<<getFree();
 
+    float myMaxSpeed = this->maxSpeed;
+
     //sprawdzenie stanu czy pilka w posiadaniu przez gracza
     for(const auto& player : pitch->teamA->players){
         if(player->inPoss) {
@@ -44,17 +46,94 @@ void Ball::updateState(const Pitch* pitch)
 
     //sprawdzanie czy na pilce wykonywane sa akcje kicking/passing
     for(const auto& player : pitch->teamA->players){
-        if(player->passing){
-            qDebug()<<"PLAYER "<<player<<" PODAJE";
+        if(player->passing && player->inPoss){
+            //qDebug()<<"PLAYER "<<player<<" PODAJE";
+            Player *teammate = player->nearest(player,pitch,true);
+            myMaxSpeed = this->maxSpeed*(player->stamina/100);
+            float xDiff = teammate->getX() - this->x;
+            float yDiff = teammate->getY() - this->y;
+            qDebug()<<player<<" xDiff:"<<xDiff<<" yDiff:"<<yDiff;
+            if(xDiff && yDiff) {
+                if(fabs(xDiff) > fabs(yDiff)){
+                    this->xVel = xDiff > 0 ? myMaxSpeed/3 : (-1)*myMaxSpeed/3;
+                    this->yVel = this->xVel * yDiff/xDiff;
+                }
+                else {
+                    this->yVel = yDiff > 0 ? myMaxSpeed/3 : (-1)*myMaxSpeed/3;
+                    this->xVel = yVel * xDiff/yDiff;
+                }
+            }else {
+                if(xDiff){
+                    this->yVel = 0;
+                    this->xVel = myMaxSpeed/3;
+                } else {
+                    this->yVel = myMaxSpeed/3;
+                    this->xVel = 0;
+                }
+            }
+            qDebug()<<"Ball "<<this->xVel<<" xVel, "<<this->yVel<<" yVel.";
+        }
+        if(player->kicking && player->inPoss) {
+            //qDebug()<<"PLAYER "<<player<<" STRZELA";
+            QPointF goal = player->findGoal(player->up_side, pitch);
+            Player *goalkeeper = player->oppGoalkeeper;
+//            myMaxSpeed = this->maxSpeed*(this->stamina/100);
+//            float xDiff = teammate->getX() - this->x;
+//            float yDiff = teammate->getY() - this->y;
+//            if(xDiff && yDiff) {
+//                this->xVel = myMaxSpeed/3;
+//                this->yVel = this->xVel * yDiff/xDiff;
+//            }else {
+//                if(xDiff){
+//                    this->yVel = 0;
+//                    this->xVel = myMaxSpeed/3;
+//                } else {
+//                    this->yVel = myMaxSpeed/3;
+//                    this->xVel = 0;
+//                }
+//            }
         }
     }
     for(const auto& player : pitch->teamB->players){
-        if(player->passing){
-            qDebug()<<"PLAYER "<<player<<" PODAJE";
+        if(player->passing && player->inPoss){
+            //qDebug()<<"PLAYER "<<player<<" PODAJE";
             Player *teammate = player->nearest(player,pitch,true);
-            qDebug()<<" Do podania nadaje sie ZAWODNIK adress: "<<teammate;
+            //qDebug()<<" Do podania nadaje sie ZAWODNIK adress: "<<teammate;
+            myMaxSpeed = this->maxSpeed*(player->stamina/100);
+            float xDiff = teammate->getX() - this->x;
+            float yDiff = teammate->getY() - this->y;
+            qDebug()<<player<<" xDiff:"<<xDiff<<" yDiff:"<<yDiff;
+            if(xDiff && yDiff) {
+                this->xVel = myMaxSpeed/3;
+                this->yVel = this->xVel * yDiff/xDiff;
+            }else {
+                if(xDiff){
+                    this->yVel = 0;
+                    this->xVel = myMaxSpeed/3;
+                } else {
+                    this->yVel = myMaxSpeed/3;
+                    this->xVel = 0;
+                }
+            }
+            qDebug()<<"Ball "<<this->xVel<<" xVel, "<<this->yVel<<" yVel.";
         }
     }
+
+
+//    if(getFree()) {
+
+//    }
+
+
+    //ograniczenia maksymalnej predkosci
+    if (this->xVel > myMaxSpeed)
+        this->xVel = myMaxSpeed;
+    if (this->yVel > myMaxSpeed)
+        this->yVel = myMaxSpeed;
+    if (this->xVel < (-1)*myMaxSpeed)
+        this->xVel = (-1)*myMaxSpeed;
+    if (this->yVel < (-1)*myMaxSpeed)
+        this->yVel = (-1)*myMaxSpeed;
 
 }
 

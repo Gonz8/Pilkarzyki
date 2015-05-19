@@ -7,21 +7,26 @@ Striker::Striker(bool host, QColor color) : Player(host,color)
 
 void Striker::updateState(const Pitch *pitch)
 {
-    qDebug()<<"Updating STRIKER state, xVel:"<<this->xVel<<" yVel:"<<this->yVel;
+    //qDebug()<<"Updating STRIKER state, xVel:"<<this->xVel<<" yVel:"<<this->yVel;
     float speedRatio = this->findBall(pitch);
     QPointF goal = findGoal(this->up_side,pitch);
     QPointF myGoal = findMyGoal(up_side,pitch);
     float xDiff = (pitch->ball->getX() - this->x);
     float yDiff = (pitch->ball->getY() - this->y);
-    qDebug()<<"xDiff,yDiff : "<<xDiff<<","<<yDiff;
+    //qDebug()<<"xDiff,yDiff : "<<xDiff<<","<<yDiff;
 
     Player *teammateNrst = this->nearest(this,pitch,true);
     Player *oppNrst = this->nearest(this,pitch,false);
+    QPointF ballPt = this->findBallPt(pitch);
 
     //warunkowanie posiadania pilki
     if(xDiff < 3 && xDiff >(-3) && yDiff > (-3) && yDiff < 3){
         //dojdzie jeszcze sprawdzenie kto przejal
-        this->inPoss = true;
+        if(!kicking && !passing){
+           this->inPoss = true;
+        } else {
+            this->inPoss = false;
+        }
         xVel = 0;
         if (up_side) {
             yVel = 1.5;
@@ -30,6 +35,7 @@ void Striker::updateState(const Pitch *pitch)
             yVel = (-1)*1.5;
     } else{
         //pozbywa sie pilki
+        this->kicking = false; this->passing =false;
         this->inPoss = false;
     }
 
@@ -82,7 +88,7 @@ void Striker::updateState(const Pitch *pitch)
         }
         //jezeli teammate biegnie do piłki
         else {
-            QPointF ballPt = this->findBallPt(pitch);
+
             if(up_side){
                 if(ballPt.y() > (-10)) {
                     if(yVel > 0){
@@ -200,21 +206,142 @@ void Striker::updateState(const Pitch *pitch)
 
     }
     else {  //w posiadaniu piłki
-        qDebug()<<"w posiadaniu (do bramki x,y : "<<goal.x()<<","<<goal.y()<<")";
-        if(this->kitColor == pitch->teamA->color) {
-            for(const auto& player : pitch->teamA->players){
+        qDebug()<<"w posiadaniu (do bramki x,y : "<<goal.x()<<","<<goal.y()<<") shoot: "<<kicking;
+        float xTOdiff = oppNrst->getX() - this->x;
+        float yTOdiff = oppNrst->getY() - this->y;
+        if(up_side){
+            //przeciwnik jest za mna
+            if( yTOdiff < 0 ) {
+                if (this->yVel > 0) {
+                    this->yVel += 0.1;
+                } else {
+                    this->yVel=0;
+                    this->yVel += 0.1;
+                }
+                if(goal.x() - this->x > 5) {
+                    this->xVel = 1;
+                }
+                else if(goal.x() - this->x < (-5)){
+                    this->xVel = (-1);
+                } else {
+                    this->xVel = 0;
+                }
+                //strzelaj jesli odpowiednio blisko
+                if(goal.y() < pitch->sizeY/9){
+                    if(chance(70)){
+                       shoot();
+                    }
+                }
 
             }
-            for(const auto& player : pitch->teamB->players){
-
+            else{
+            //przeciwnik jest przede mna
+                if(xTOdiff < 0 ) {
+                    if(xVel > 0){
+                        xVel += 0.1;
+                    } else {
+                        xVel = 0; xVel += 0.1;
+                    }
+                } else {
+                    if(xVel > 0) {
+                        xVel = 0; xVel -= 0.1;
+                    }else {
+                        xVel -= 0.1;
+                    }
+                }
+                float xopp_team = oppNrst->getX() - teammateNrst->getX();
+                float yopp_team = oppNrst->getY() - teammateNrst->getY();
+                if(xopp_team > 10 && xopp_team < (-10) && yopp_team > 10 && yopp_team < (-10) ) {
+                    if(chance(90)){
+                       pass();
+                    }
+                }
+                else {
+                    if (this->yVel > 0) {
+                        this->yVel += 0.1;
+                    } else {
+                        this->yVel=0;
+                        this->yVel += 0.1;
+                    }
+                    if(yTOdiff < 10) {
+                        if(chance(65)){
+                           pass();
+                        }
+                    }
+                    if(goal.y() < pitch->sizeY/7){
+                        if(chance(40)){
+                           shoot();
+                        }
+                    }
+                }
             }
         }
         else {
-            for(const auto& player : pitch->teamB->players){
+            // not up_side
+            if( yTOdiff > 0 ) {
+                //przeciwnik za mna
+                if (this->yVel < 0) {
+                    this->yVel -= 0.1;
+                } else {
+                    this->yVel=0;
+                    this->yVel -= 0.1;
+                }
+                if(goal.x() - this->x > 5) {
+                    this->xVel = 1;
+                }
+                else if(goal.x() - this->x < (-5)){
+                    this->xVel = (-1);
+                } else {
+                    this->xVel = 0;
+                }
+                //strzelaj jesli odpowiednio blisko
+                if(goal.y() > (-1)*pitch->sizeY/9){
+                    if(chance(70)){
+                       shoot();
+                    }
+                }
 
             }
-            for(const auto& player : pitch->teamA->players){
-
+            else{
+            //przeciwnik jest przede mna
+                if(xTOdiff < 0 ) {
+                    if(xVel > 0){
+                        xVel += 0.1;
+                    } else {
+                        xVel = 0; xVel += 0.1;
+                    }
+                } else {
+                    if(xVel > 0) {
+                        xVel = 0; xVel -= 0.1;
+                    }else {
+                        xVel -= 0.1;
+                    }
+                }
+                float xopp_team = oppNrst->getX() - teammateNrst->getX();
+                float yopp_team = oppNrst->getY() - teammateNrst->getY();
+                if(xopp_team > 10 && xopp_team < (-10) && yopp_team > 10 && yopp_team < (-10) ) {
+                    if(chance(90)){
+                       pass();
+                    }
+                }
+                else {
+                    if (this->yVel < 0) {
+                        this->yVel -= 0.1;
+                    } else {
+                        this->yVel=0;
+                        this->yVel -= 0.1;
+                    }
+                    if(yTOdiff > (-10)) {
+                        if(chance(65)){
+                           pass();
+                        }
+                    }
+                    if(goal.y() > (-1)*pitch->sizeY/7){
+                        if(chance(40)){
+                           shoot();
+                        }
+                    }
+                }
             }
         }
 

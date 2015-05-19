@@ -77,13 +77,14 @@ void MainWindow::updateView()
 }
 
 void MainWindow::goStep(){
+   pitch.ball->updateState(&pitch);
    for(auto& player : pitch.teamA->players){
        player->updateState(&pitch);
    }
    for(auto& player : pitch.teamB->players){
        player->updateState(&pitch);
    }
-   pitch.ball->updateState(&pitch);
+
    engine.updatePitch(pitch);
 
    ui->labelGameTime->setText(QString::number(90 - gameTimer.remainingTime()/1000.0));

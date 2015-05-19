@@ -49,7 +49,7 @@ void Ball::updateState(const Pitch* pitch)
         if(player->passing && player->inPoss){
             //qDebug()<<"PLAYER "<<player<<" PODAJE";
             Player *teammate = player->nearest(player,pitch,true);
-            myMaxSpeed = this->maxSpeed*(player->stamina/100);
+            myMaxSpeed = this->maxSpeed*(player->strength/100);
             float xDiff = teammate->getX() - this->x;
             float yDiff = teammate->getY() - this->y;
             qDebug()<<player<<" xDiff:"<<xDiff<<" yDiff:"<<yDiff;
@@ -77,21 +77,53 @@ void Ball::updateState(const Pitch* pitch)
             //qDebug()<<"PLAYER "<<player<<" STRZELA";
             QPointF goal = player->findGoal(player->up_side, pitch);
             Player *goalkeeper = player->oppGoalkeeper;
-//            myMaxSpeed = this->maxSpeed*(this->stamina/100);
-//            float xDiff = teammate->getX() - this->x;
-//            float yDiff = teammate->getY() - this->y;
-//            if(xDiff && yDiff) {
-//                this->xVel = myMaxSpeed/3;
-//                this->yVel = this->xVel * yDiff/xDiff;
-//            }else {
-//                if(xDiff){
-//                    this->yVel = 0;
-//                    this->xVel = myMaxSpeed/3;
-//                } else {
-//                    this->yVel = myMaxSpeed/3;
-//                    this->xVel = 0;
-//                }
-//            }
+            myMaxSpeed = this->maxSpeed*(player->strength/100);
+            float xDiff;
+            float yDiff;
+            float toFarPost;
+            if(goal.x() > goalkeeper->getX() - this->x) {
+                if(chance(player->skill)){
+                   toFarPost = pitch->goalLength/3;
+                }else {
+                    if(chance(50)){
+                        toFarPost = pitch->goalLength/5;
+                    }else {
+                        toFarPost = pitch->goalLength;
+                    }
+                }
+            }
+            else {
+                if(chance(player->skill)){
+                   toFarPost = (-1)*pitch->goalLength/3;
+                }else {
+                    if(chance(50)){
+                        toFarPost = (-1)*pitch->goalLength/6;
+                    }else {
+                        toFarPost = (-1)*pitch->goalLength;
+                    }
+                }
+            }
+            xDiff = goal.x() + toFarPost;
+            yDiff = goal.y();
+            if(xDiff && yDiff) {
+                if(fabs(xDiff) > fabs(yDiff)){
+                    this->xVel = xDiff > 0 ? myMaxSpeed : (-1)*myMaxSpeed;
+                    this->yVel = this->xVel * yDiff/xDiff;
+                }
+                else {
+                    this->yVel = yDiff > 0 ? myMaxSpeed : (-1)*myMaxSpeed;
+                    this->xVel = yVel * xDiff/yDiff;
+                }
+            }else {
+                if(xDiff){
+                    this->yVel = 0;
+                    this->xVel = myMaxSpeed;
+                } else {
+                    this->yVel = myMaxSpeed;
+                    this->xVel = 0;
+                }
+            }
+            qDebug()<<"Ball "<<this->xVel<<" xVel, "<<this->yVel<<" yVel.";
         }
     }
     for(const auto& player : pitch->teamB->players){
@@ -99,19 +131,77 @@ void Ball::updateState(const Pitch* pitch)
             //qDebug()<<"PLAYER "<<player<<" PODAJE";
             Player *teammate = player->nearest(player,pitch,true);
             //qDebug()<<" Do podania nadaje sie ZAWODNIK adress: "<<teammate;
-            myMaxSpeed = this->maxSpeed*(player->stamina/100);
+            myMaxSpeed = this->maxSpeed*(player->strength/100);
             float xDiff = teammate->getX() - this->x;
             float yDiff = teammate->getY() - this->y;
             qDebug()<<player<<" xDiff:"<<xDiff<<" yDiff:"<<yDiff;
             if(xDiff && yDiff) {
-                this->xVel = myMaxSpeed/3;
-                this->yVel = this->xVel * yDiff/xDiff;
+                if(fabs(xDiff) > fabs(yDiff)){
+                    this->xVel = xDiff > 0 ? myMaxSpeed/3 : (-1)*myMaxSpeed/3;
+                    this->yVel = this->xVel * yDiff/xDiff;
+                }
+                else {
+                    this->yVel = yDiff > 0 ? myMaxSpeed/3 : (-1)*myMaxSpeed/3;
+                    this->xVel = yVel * xDiff/yDiff;
+                }
             }else {
                 if(xDiff){
                     this->yVel = 0;
                     this->xVel = myMaxSpeed/3;
                 } else {
                     this->yVel = myMaxSpeed/3;
+                    this->xVel = 0;
+                }
+            }
+            qDebug()<<"Ball "<<this->xVel<<" xVel, "<<this->yVel<<" yVel.";
+        }
+        if(player->kicking && player->inPoss) {
+            //qDebug()<<"PLAYER "<<player<<" STRZELA";
+            QPointF goal = player->findGoal(player->up_side, pitch);
+            Player *goalkeeper = player->oppGoalkeeper;
+            myMaxSpeed = this->maxSpeed*(player->strength/100);
+            float xDiff;
+            float yDiff;
+            float toFarPost;
+            if(goal.x() > goalkeeper->getX() - this->x) {
+                if(chance(player->skill)){
+                   toFarPost = pitch->goalLength/3;
+                }else {
+                    if(chance(50)){
+                        toFarPost = pitch->goalLength/5;
+                    }else {
+                        toFarPost = pitch->goalLength;
+                    }
+                }
+            }
+            else {
+                if(chance(player->skill)){
+                   toFarPost = (-1)*pitch->goalLength/3;
+                }else {
+                    if(chance(50)){
+                        toFarPost = (-1)*pitch->goalLength/6;
+                    }else {
+                        toFarPost = (-1)*pitch->goalLength;
+                    }
+                }
+            }
+            xDiff = goal.x() + toFarPost;
+            yDiff = goal.y();
+            if(xDiff && yDiff) {
+                if(fabs(xDiff) > fabs(yDiff)){
+                    this->xVel = xDiff > 0 ? myMaxSpeed : (-1)*myMaxSpeed;
+                    this->yVel = this->xVel * yDiff/xDiff;
+                }
+                else {
+                    this->yVel = yDiff > 0 ? myMaxSpeed : (-1)*myMaxSpeed;
+                    this->xVel = yVel * xDiff/yDiff;
+                }
+            }else {
+                if(xDiff){
+                    this->yVel = 0;
+                    this->xVel = myMaxSpeed;
+                } else {
+                    this->yVel = myMaxSpeed;
                     this->xVel = 0;
                 }
             }

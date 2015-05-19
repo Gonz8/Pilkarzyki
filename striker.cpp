@@ -206,7 +206,7 @@ void Striker::updateState(const Pitch *pitch)
 
     }
     else {  //w posiadaniu piłki
-        qDebug()<<"w posiadaniu (do bramki x,y : "<<goal.x()<<","<<goal.y()<<") shoot: "<<kicking;
+
         float xTOdiff = oppNrst->getX() - this->x;
         float yTOdiff = oppNrst->getY() - this->y;
         if(up_side){
@@ -344,7 +344,7 @@ void Striker::updateState(const Pitch *pitch)
                 }
             }
         }
-
+    qDebug()<<"w posiadaniu (do bramki x,y : "<<goal.x()<<","<<goal.y()<<") shoot: "<<kicking<<" pass: "<<passing;
     }
 
 

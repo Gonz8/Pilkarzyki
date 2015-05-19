@@ -7,7 +7,7 @@ Goalkeeper::Goalkeeper(bool host, QColor color) :Player(host,color)
 
 void Goalkeeper::updateState(const Pitch *pitch)
 {
-    qDebug()<<"Updating GOALKEEPER state, address"<<this<<" xVel:"<<this->xVel<<" yVel:"<<this->yVel<<" poss: "<<inPoss;
+    //qDebug()<<"Updating GOALKEEPER state, address"<<this<<" xVel:"<<this->xVel<<" yVel:"<<this->yVel<<" poss: "<<inPoss;
    // float speedRatio = this->findBall(pitch);
 
     QPointF myGoal = findMyGoal(up_side,pitch);
@@ -147,10 +147,10 @@ void Goalkeeper::updateState(const Pitch *pitch)
         } else {
 
             if(ballPt.x() > 0.3 ) {
-                xVel = 1;
+                xVel = 0.7;
             }
             else if(ballPt.x() < (-0.3)) {
-                xVel = (-1);
+                xVel = (-0.7);
             } else {
                 xVel = 0;
             }

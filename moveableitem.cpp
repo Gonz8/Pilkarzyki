@@ -11,10 +11,10 @@ MoveableItem::MoveableItem()
 bool MoveableItem::chance(float chance, int universe)
 {
     if( qrand() % universe <= chance) {
-        qDebug() << " trafiony";
+        //qDebug() << " trafiony";
         return true;
     }
-    qDebug() << " PUUUDLO";
+    //qDebug() << " PUUUDLO";
     return false;
 }
 

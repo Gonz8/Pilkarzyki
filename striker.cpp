@@ -19,25 +19,71 @@ void Striker::updateState(const Pitch *pitch)
     Player *oppNrst = this->nearest(this,pitch,false);
     QPointF ballPt = this->findBallPt(pitch);
 
-    //warunkowanie posiadania pilki
-    if(xDiff < 3 && xDiff >(-3) && yDiff > (-3) && yDiff < 3){
-        //dojdzie jeszcze sprawdzenie kto przejal
-        if(!kicking && !passing){
-           this->inPoss = true;
-        } else {
-            this->inPoss = false;
+    //warunkowanie posiadania pilki/przejęcia jej
+        if(ballPt.x() < 3 && ballPt.x() >(-3) && ballPt.y() > (-3) && ballPt.y() < 3){
+            //dojdzie jeszcze sprawdzenie kto przejal
+            if(oppNrst->inPoss){
+                float skillDiff = (oppNrst->skill + oppNrst->strength) - (this->skill + this->strength);
+                //qDebug()<<"UWAGA skillDiff = "<<skillDiff;
+                if(skillDiff > 20) {
+                    if( this->chance(15) ) {
+                        if(!kicking && !passing){
+                           this->inPoss = true;
+                        }
+                    }else {
+                        inPoss = false;
+                    }
+                }
+                else if (skillDiff < (-20)) {
+                    if( this->chance(85) ) {
+                        if(!kicking && !passing){
+                           this->inPoss = true;
+                        }
+                    }else {
+                        inPoss = false;
+                    }
+                }
+                else {
+                    if( this->chance(50) ) {
+                        if(!kicking && !passing){
+                           this->inPoss = true;
+                        }
+                    }else {
+                        inPoss = false;
+                    }
+                }
+            }
+            else if(pitch->ball->getXVel() > pitch->ball->maxSpeed/2 || pitch->ball->getYVel() > pitch->ball->maxSpeed/2 ){
+                if(chance(4*skill/5)) {
+                    if(!kicking && !passing){
+                       this->inPoss = true;
+                    }
+                }else {
+                    inPoss = false;
+                }
+            }else {
+                if(chance(skill)) {
+                    if(!kicking && !passing){
+                       this->inPoss = true;
+                    }
+                }else {
+                    inPoss = false;
+                }
+            }
+            if(inPoss){
+                if(chance(50)){
+                    xVel = 0.5;
+                }else {
+                    xVel = -0.5;
+                }
+                up_side ? yVel = 1.2 : yVel = (-1.2);
+            }
+        } else{
+            //pozbywa sie pilki
+            inPoss = false;
+            this->kicking = false; this->passing =false;
         }
-        xVel = 0;
-        if (up_side) {
-            yVel = 1.5;
-        }
-        else
-            yVel = (-1)*1.5;
-    } else{
-        //pozbywa sie pilki
-        this->kicking = false; this->passing =false;
-        this->inPoss = false;
-    }
+
 
 //zachowanie gdy w posiadaniu lub nie
     //jeżeli nie posiada

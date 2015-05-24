@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
    connect(&pitch,SIGNAL(updated()),this,SLOT(updateView()));
 
 
-   timer.setInterval(180);
+   timer.setInterval(150);
    ui->pushButtonResume->setVisible(false);
    connect(&timer,SIGNAL(timeout()),this,SLOT(goStep()));
    //timer.start(); //startuje zegar button START
@@ -87,7 +87,7 @@ void MainWindow::goStep(){
 
    engine.updatePitch(pitch);
 
-   ui->labelGameTime->setText(QString::number(90 - gameTimer.remainingTime()/1000.0));
+   ui->labelGameTime->setText(QString::number((180 - gameTimer.remainingTime()/1000.0)/2));
   // ui->labelScoreA->setText(QString::number(pitch.teamA->score));
    //ui->labelScoreB->setText(QString::number(pitch.teamB->score));
 
@@ -118,7 +118,7 @@ void MainWindow::resume()
 void MainWindow::start()
 {
     timer.start();
-    gameTimer.start(90000);
+    gameTimer.start(180000);
     ui->pushButtonStart->setVisible(false);
     ui->pushButtonResume->setVisible(true);
 }

@@ -119,7 +119,7 @@ void Ball::updateState(const Pitch* pitch)
                     this->yVel = 0;
                     this->xVel = myMaxSpeed;
                 } else {
-                    this->yVel = myMaxSpeed;
+                    this->yVel = yDiff > 0 ? myMaxSpeed : (-1)*myMaxSpeed;
                     this->xVel = 0;
                 }
             }

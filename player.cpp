@@ -119,6 +119,13 @@ Player *Player::nearest(const Player *ja, const Pitch *pitch, bool myteam)
     }
     return teammate;
 }
+
+void Player::changePlayerPos(float x, float y)
+{
+    this->setX(x);
+    this->setY(y);
+}
+
 void Player::updateState(const Pitch* pitch)
 {
     //Jako input masz pitch i na podstawie tego co jest na boisku czyli pozycja pilki pozycja swojej druzyny i pozycja przeciwnika

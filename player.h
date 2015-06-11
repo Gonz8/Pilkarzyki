@@ -35,6 +35,7 @@ public:
     QPointF findGoal(bool up, const Pitch *pitch);
     QPointF findMyGoal(bool up, const Pitch *pitch);
     Player* nearest(const Player *ja, const Pitch *pitch, bool myteam);
+    void changePlayerPos(float x, float y);
     virtual void updateState(const Pitch* pitch);
     void shoot();
     void pass();

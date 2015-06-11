@@ -20,16 +20,8 @@ Team::Team(bool host, const Pitch *pitch)
             players.push_back(newPlayer);
         }
 
-        players[0]->setX(width/2);
-        players[0]->setY(height/40);
-        players[1]->setX(width/3);
-        players[1]->setY(height/5);
-        players[2]->setX(2*width/3);
-        players[2]->setY(height/5);
-        players[3]->setX(width/2);
-        players[3]->setY(height/2);
-        players[4]->setX(9*width/16);
-        players[4]->setY(15*height/32);
+        this->setPlayersPos(this->up_side,true,pitch);
+
     } else {
         name = "Niebiescy";
         color = Qt::blue;
@@ -44,16 +36,8 @@ Team::Team(bool host, const Pitch *pitch)
             players.push_back(newPlayer);
         }
 
-        players[0]->setX(width/2);
-        players[0]->setY(39*height/40);
-        players[1]->setX(width/3);
-        players[1]->setY(4*height/5);
-        players[2]->setX(2*width/3);
-        players[2]->setY(4*height/5);
-        players[3]->setX(width/3);
-        players[3]->setY(9*height/16);
-        players[4]->setX(2*width/3);
-        players[4]->setY(9*height/16);
+        this->setPlayersPos(this->up_side,false,pitch);
+
     }
     int high = Player::maxSkill; int low = Player::minSkill;
     coopSkill = qrand() % ((high + 1) - low) + low;
@@ -79,5 +63,47 @@ bool Team::getSide() const
 void Team::setSide(bool value)
 {
     up_side = value;
+    foreach (Player *player, players) {
+      player->up_side = value;
+    }
 }
+
+void Team::setPlayersPos(bool up_side, bool withBall, const Pitch *pitch)
+{
+    int width = pitch->sizeX;
+    int height = pitch->sizeY;
+    if(up_side){
+        if(withBall){
+            players[0]->changePlayerPos(width/2,height/40);
+            players[1]->changePlayerPos(width/3,height/5);
+            players[2]->changePlayerPos(2*width/3,height/5);
+            players[3]->changePlayerPos(width/2,height/2);
+            players[4]->changePlayerPos(9*width/16,15*height/32);
+        }
+        else {
+            players[0]->changePlayerPos(width/2,height/40);
+            players[1]->changePlayerPos(width/3,height/5);
+            players[2]->changePlayerPos(2*width/3,height/5);
+            players[3]->changePlayerPos(width/3,7*height/16);
+            players[4]->changePlayerPos(2*width/3,7*height/16);
+        }
+    }
+    else {
+        if(withBall){
+            players[0]->changePlayerPos(width/2,39*height/40);
+            players[1]->changePlayerPos(width/3,4*height/5);
+            players[2]->changePlayerPos(2*width/3,4*height/5);
+            players[3]->changePlayerPos(width/2,height/2);
+            players[4]->changePlayerPos(9*width/16,17*height/32);
+        }
+        else {
+            players[0]->changePlayerPos(width/2,39*height/40);
+            players[1]->changePlayerPos(width/3,4*height/5);
+            players[2]->changePlayerPos(2*width/3,4*height/5);
+            players[3]->changePlayerPos(width/3,9*height/16);
+            players[4]->changePlayerPos(2*width/3,9*height/16);
+        }
+    }
+}
+
 

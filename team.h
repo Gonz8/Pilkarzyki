@@ -23,6 +23,7 @@ public:
     ~Team();
     bool getSide() const;
     void setSide(bool value);
+    void setPlayersPos(bool up_side,bool withBall,const Pitch* pitch);
 
 private:
     bool up_side; // zaczyna górna połowa (gospodarz)

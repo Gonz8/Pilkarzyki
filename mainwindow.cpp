@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
    QColor Acolor = pitch.teamA->color;
    QColor Bcolor = pitch.teamB->color;
+   halfTime = false;
    for(auto player : pitch.teamA->players){
        QGraphicsEllipseItem *e = scene->addEllipse(player->getX(),player->getY(),player->radius, player->radius, QPen(Acolor), QBrush(Acolor));
        ellipses.push_back(e);
@@ -91,18 +92,53 @@ void MainWindow::goStep(){
    ui->labelScoreA->setText(QString::number(pitch.teamA->score));
    ui->labelScoreB->setText(QString::number(pitch.teamB->score));
 
+   if(gameTimer.remainingTime() < 90100 && gameTimer.remainingTime() > 89900 && !halfTime){
+       halfTime = true;
+       pitch.teamA->setSide(false);
+       pitch.teamB->setSide(true);
+       pitch.teamA->setPlayersPos(false,false,&pitch);
+       pitch.teamB->setPlayersPos(true,true,&pitch);
+       pitch.ball->setX(pitch.sizeX/2);pitch.ball->setY(pitch.sizeY/2);
+       pitch.ball->setXVel(0);pitch.ball->setYVel(0);
+       pause();
+   }
+
    //po strzelonej bramce zatrzymaj czas i rozpocznij mecz po chwili
    float goalHalf = pitch.goalLength/2;
    float firstPost = pitch.sizeX/2 - goalHalf;
    float secondPost = pitch.sizeX/2 + goalHalf;
    if(pitch.ball->getX() > firstPost && pitch.ball->getX() < secondPost){
        if(pitch.ball->getY() == pitch.sizeY) {
-           pitch.teamA->score += 1;
+           if(pitch.teamA->getSide()){
+               pitch.teamA->score += 1;
+               pitch.teamA->setPlayersPos(pitch.teamA->getSide(),false,&pitch);
+               pitch.teamB->setPlayersPos(pitch.teamB->getSide(),true,&pitch);
+               pitch.ball->setX(pitch.sizeX/2);pitch.ball->setY(pitch.sizeY/2);
+               pitch.ball->setXVel(0);pitch.ball->setYVel(0);
+           }else{
+               pitch.teamB->score += 1;
+               pitch.teamA->setPlayersPos(pitch.teamA->getSide(),true,&pitch);
+               pitch.teamB->setPlayersPos(pitch.teamB->getSide(),false,&pitch);
+               pitch.ball->setX(pitch.sizeX/2);pitch.ball->setY(pitch.sizeY/2);
+               pitch.ball->setXVel(0);pitch.ball->setYVel(0);
+           }
            ui->labelScoreA->setText(QString::number(pitch.teamA->score));
            ui->labelScoreB->setText(QString::number(pitch.teamB->score));
            pause();
        }else if (pitch.ball->getY() == 0) {
-           pitch.teamB->score += 1;
+           if(!pitch.teamB->getSide()){
+              pitch.teamB->score += 1;
+              pitch.teamA->setPlayersPos(pitch.teamA->getSide(),true,&pitch);
+              pitch.teamB->setPlayersPos(pitch.teamB->getSide(),false,&pitch);
+              pitch.ball->setX(pitch.sizeX/2);pitch.ball->setY(pitch.sizeY/2);
+              pitch.ball->setXVel(0);pitch.ball->setYVel(0);
+           }else{
+              pitch.teamA->score += 1;
+              pitch.teamA->setPlayersPos(pitch.teamA->getSide(),false,&pitch);
+              pitch.teamB->setPlayersPos(pitch.teamB->getSide(),true,&pitch);
+              pitch.ball->setX(pitch.sizeX/2);pitch.ball->setY(pitch.sizeY/2);
+              pitch.ball->setXVel(0);pitch.ball->setYVel(0);
+           }
            ui->labelScoreA->setText(QString::number(pitch.teamA->score));
            ui->labelScoreB->setText(QString::number(pitch.teamB->score));
            pause();

@@ -40,6 +40,8 @@ private:
     QTimer timer;
     int actualTime;
     QTimer gameTimer;
+    bool halfTime;
+   // QTimer restartGameTimer;
 };
 
 #endif // MAINWINDOW_H

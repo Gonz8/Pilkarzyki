@@ -19,6 +19,8 @@ public:
     float getYVel() const;
     void setX(float value);
     void setY(float value);
+    void setXVel(float value);
+    void setYVel(float value);
 protected:
     float x;
     float y;

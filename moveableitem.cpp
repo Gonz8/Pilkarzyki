@@ -57,3 +57,13 @@ void MoveableItem::setY(float value)
 {
     y = value;
 }
+
+void MoveableItem::setXVel(float value)
+{
+    xVel = value;
+}
+
+void MoveableItem::setYVel(float value)
+{
+    yVel = value;
+}

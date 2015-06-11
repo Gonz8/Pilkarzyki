@@ -26,7 +26,12 @@ Pitch::~Pitch()
 
 void Pitch::drawPitch(QGraphicsScene * scene)
 {
-     scene->addRect(0,0,sizeX, sizeY, QPen(Qt::black),QBrush(Qt::green));
+    QBrush brush;
+    QImage brushImage;
+    brushImage = QImage(":/images/pitch.jpg");
+    brushImage = brushImage.scaled(QSize(sizeX,sizeY));
+    brush = QBrush(brushImage);
+     scene->addRect(0,0,sizeX, sizeY, QPen(Qt::black),brush);
      QPen pen(Qt::black, 1);
      QLineF line(0, sizeY/2, sizeX,sizeY/2);
      scene->addLine(line,pen);

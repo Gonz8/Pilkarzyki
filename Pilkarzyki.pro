@@ -37,3 +37,6 @@ HEADERS  += mainwindow.h \
     striker.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    Images.qrc

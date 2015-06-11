@@ -88,18 +88,26 @@ void MainWindow::goStep(){
    engine.updatePitch(pitch);
 
    ui->labelGameTime->setText(QString::number((180 - gameTimer.remainingTime()/1000.0)/2));
-  // ui->labelScoreA->setText(QString::number(pitch.teamA->score));
-   //ui->labelScoreB->setText(QString::number(pitch.teamB->score));
+   ui->labelScoreA->setText(QString::number(pitch.teamA->score));
+   ui->labelScoreB->setText(QString::number(pitch.teamB->score));
 
    //po strzelonej bramce zatrzymaj czas i rozpocznij mecz po chwili
-//       if(pitch.ball->getY() == pitch.sizeY) {
-//           pitch.teamA->score += 1;
-//           pause();
-//       }else if (pitch.ball->getY() == 0) {
-//           pitch.teamB->score += 1;
-//           pause();
-//       }
-
+   float goalHalf = pitch.goalLength/2;
+   float firstPost = pitch.sizeX/2 - goalHalf;
+   float secondPost = pitch.sizeX/2 + goalHalf;
+   if(pitch.ball->getX() > firstPost && pitch.ball->getX() < secondPost){
+       if(pitch.ball->getY() == pitch.sizeY) {
+           pitch.teamA->score += 1;
+           ui->labelScoreA->setText(QString::number(pitch.teamA->score));
+           ui->labelScoreB->setText(QString::number(pitch.teamB->score));
+           pause();
+       }else if (pitch.ball->getY() == 0) {
+           pitch.teamB->score += 1;
+           ui->labelScoreA->setText(QString::number(pitch.teamA->score));
+           ui->labelScoreB->setText(QString::number(pitch.teamB->score));
+           pause();
+       }
+    }
 }
 
 void MainWindow::pause()

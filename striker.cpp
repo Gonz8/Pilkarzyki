@@ -265,16 +265,16 @@ void Striker::updateState(const Pitch *pitch)
                     this->yVel += 0.1;
                 }
                 if(goal.x() - this->x > 5) {
-                    this->xVel = 1;
+                    this->xVel = 1.2;
                 }
                 else if(goal.x() - this->x < (-5)){
-                    this->xVel = (-1);
+                    this->xVel = (-1.2);
                 } else {
                     this->xVel = 0;
                 }
                 //strzelaj jesli odpowiednio blisko
                 if(goal.y() < pitch->sizeY/9){
-                    if(chance(70)){
+                    if(chance(85)){
                        shoot();
                     }
                 }
@@ -333,16 +333,16 @@ void Striker::updateState(const Pitch *pitch)
                     this->yVel -= 0.1;
                 }
                 if(goal.x() - this->x > 5) {
-                    this->xVel = 1;
+                    this->xVel = 1.3;
                 }
                 else if(goal.x() - this->x < (-5)){
-                    this->xVel = (-1);
+                    this->xVel = (-1.3);
                 } else {
                     this->xVel = 0;
                 }
                 //strzelaj jesli odpowiednio blisko
                 if(goal.y() > (-1)*pitch->sizeY/9){
-                    if(chance(70)){
+                    if(chance(80)){
                        shoot();
                     }
                 }
@@ -378,7 +378,7 @@ void Striker::updateState(const Pitch *pitch)
                         this->yVel -= 0.1;
                     }
                     if(yTOdiff > (-10)) {
-                        if(chance(65)){
+                        if(chance(70)){
                            pass();
                         }
                     }

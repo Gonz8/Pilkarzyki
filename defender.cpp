@@ -86,7 +86,7 @@ void Defender::updateState(const Pitch *pitch)
         //jeżeli nie posiada
         if(!this->inPoss) {
             //jesli w linii obrony blizej pilki
-            if(teammate->findBallDist(pitch) >= this->findBallDist(pitch) && fabs(ballPt.y()) < pitch->sizeY/10 ) {
+            if(teammate->findBallDist(pitch) >= this->findBallDist(pitch) && fabs(ballPt.y()) < pitch->sizeY/5 ) {
                 if(pitch->ball->getX() > this->x) {
                     if (this->xVel > 0) {
                         this->xVel += 0.1;
@@ -136,16 +136,16 @@ void Defender::updateState(const Pitch *pitch)
                        this->yVel = up_side ? (-0.5) : 0.5;
                    }
                    if(this->x < pitch->sizeX/3){
-                       this->xVel = 0.5;
+                       this->xVel = 0.8;
                    }
                    if(this->x > 7*pitch->sizeX/8){
-                       this->xVel = -0.5;
+                       this->xVel = -0.8;
                    }
                    else {
-                       this->xVel = chance(50) ? 0.7 : -0.7;
+                       this->xVel = chance(50) ? 1 : -1;
                    }
                    if(fabs(myGoal.y()) > 2*pitch->sizeY/3){
-                       this->yVel = up_side ? -1 : 1;
+                       this->yVel = up_side ? -1.5 : 1.5;
                    }
                    else if(fabs(myGoal.y()) < pitch->sizeY/12){
                        this->yVel = up_side ? 1 : -1;
@@ -158,16 +158,16 @@ void Defender::updateState(const Pitch *pitch)
                         this->yVel = up_side ? (-0.5) : 0.5;
                     }
                     if(this->x < pitch->sizeX/9){
-                        this->xVel = 0.5;
+                        this->xVel = 0.8;
                     }
                     if(this->x > 2*pitch->sizeX/3){
-                        this->xVel = -0.5;
+                        this->xVel = -0.8;
                     }
                     else {
-                        this->xVel = chance(50) ? 0.7 : -0.7;
+                        this->xVel = chance(50) ? 1 : -1;
                     }
                     if(fabs(myGoal.y()) > 2*pitch->sizeY/3){
-                        this->yVel = up_side ? -1 : 1;
+                        this->yVel = up_side ? -1.5 : 1.5;
                     }
                     else if(fabs(myGoal.y()) < pitch->sizeY/12){
                         this->yVel = up_side ? 1 : -1;
@@ -196,10 +196,10 @@ void Defender::updateState(const Pitch *pitch)
 
                 }
                 else {
-                    chance(65) ? pass() : shoot();
+                    chance(70) ? pass() : shoot();
                 }
                 if(up_side ? teammate->getY() < this->y : teammate->getY() > this->y){
-                    chance(80) ? shoot() : pass();
+                    chance(82) ? shoot() : pass();
                 }
             }
             else {
@@ -234,7 +234,16 @@ void Defender::updateState(const Pitch *pitch)
         this->xVel = (-1)*myMaxSpeed;
     if (this->yVel < (-1)*myMaxSpeed)
         this->yVel = (-1)*myMaxSpeed;
-
+    //ograniczenia co linii bramki
+    if (up_side){
+        if (this->y < pitch->sizeY/35) {
+            yVel = 0.2;
+        }
+    }else {
+        if (this->y > 34*pitch->sizeY/35) {
+            yVel = -0.2;
+        }
+    }
 
 
 }

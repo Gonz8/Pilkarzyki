@@ -102,6 +102,18 @@ void MainWindow::goStep(){
        pitch.ball->setXVel(0);pitch.ball->setYVel(0);
        pause();
    }
+   if(gameTimer.remainingTime() == 0){
+       ui->pushButtonStart->setVisible(true);
+       ui->pushButtonResume->setVisible(false);
+       pitch.teamA->score = 0; pitch.teamB->score = 0;
+       pitch.teamA->setSide(true);
+       pitch.teamB->setSide(false);
+       pitch.teamA->setPlayersPos(true,true,&pitch);
+       pitch.teamB->setPlayersPos(false,false,&pitch);
+       pitch.ball->setX(pitch.sizeX/2);pitch.ball->setY(pitch.sizeY/2);
+       pitch.ball->setXVel(0);pitch.ball->setYVel(0);
+       pause();
+   }
 
    //po strzelonej bramce zatrzymaj czas i rozpocznij mecz po chwili
    float goalHalf = pitch.goalLength/2;
@@ -124,7 +136,7 @@ void MainWindow::goStep(){
            }
            ui->labelScoreA->setText(QString::number(pitch.teamA->score));
            ui->labelScoreB->setText(QString::number(pitch.teamB->score));
-           pause();
+           //pause();
        }else if (pitch.ball->getY() == 0) {
            if(!pitch.teamB->getSide()){
               pitch.teamB->score += 1;
@@ -141,7 +153,7 @@ void MainWindow::goStep(){
            }
            ui->labelScoreA->setText(QString::number(pitch.teamA->score));
            ui->labelScoreB->setText(QString::number(pitch.teamB->score));
-           pause();
+           //pause();
        }
     }
 }

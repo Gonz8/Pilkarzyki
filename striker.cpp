@@ -11,8 +11,8 @@ void Striker::updateState(const Pitch *pitch)
     float speedRatio = this->findBall(pitch);
     QPointF goal = findGoal(this->up_side,pitch);
     QPointF myGoal = findMyGoal(up_side,pitch);
-    float xDiff = (pitch->ball->getX() - this->x);
-    float yDiff = (pitch->ball->getY() - this->y);
+    //float xDiff = (pitch->ball->getX() - this->x);
+    //float yDiff = (pitch->ball->getY() - this->y);
     //qDebug()<<"xDiff,yDiff : "<<xDiff<<","<<yDiff;
 
     Player *teammateNrst = this->nearest(this,pitch,true);

@@ -12,7 +12,7 @@ public:
     std::string name;
     static const int maxSpeed = 3;
     static const int maxSkill = 100;
-    static const int minSkill = 50;
+    static const int minSkill = 60;
     bool up_side;
     QColor kitColor;
     bool inPoss;

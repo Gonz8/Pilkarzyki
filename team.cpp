@@ -2,8 +2,6 @@
 #include <pitch.h>
 Team::Team(bool host, const Pitch *pitch)
 {
-    int width = pitch->sizeX;
-    int height = pitch->sizeY;
     up_side = host;
     score = 0;
     if(host) {

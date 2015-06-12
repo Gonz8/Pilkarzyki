@@ -23,14 +23,14 @@ void Goalkeeper::updateState(const Pitch *pitch)
                 float skillDiff = (oppNrst->skill + oppNrst->strength) - (this->skill + this->strength);
                 //qDebug()<<"UWAGA skillDiff = "<<skillDiff;
                 if(skillDiff > 20) {
-                    if( this->chance(15) ) {
+                    if( this->chance(30) ) {
                         inPoss = true;
                     }else {
                         inPoss = false;
                     }
                 }
                 else if (skillDiff < (-20)) {
-                    if( this->chance(85) ) {
+                    if( this->chance(90) ) {
                         inPoss = true;
                     }else {
                         inPoss = false;
@@ -113,7 +113,12 @@ void Goalkeeper::updateState(const Pitch *pitch)
         //bez pilki
         if(ballPt.y() > 3*pitch->sizeY/5 || ballPt.y() < (-3)*pitch->sizeY/5) {
             //pilka daleko, idz troche do przodu
-            up_side ? yVel += 0.1 : yVel -= 0.1;
+            //up_side ? yVel += 0.1 : yVel -= 0.1;
+            if(chance(50)){
+                yVel -= 0.1;
+            }else {
+                yVel += 0.1;
+            }
         } else if(ballPt.y() > pitch->sizeY/4 || ballPt.y() < (-1)*pitch->sizeY/4) {
             up_side ? yVel -= 0.1 : yVel += 0.1;
             if (this->y < pitch->sizeY/35 || this->y > 34*pitch->sizeY/35) {
@@ -147,17 +152,21 @@ void Goalkeeper::updateState(const Pitch *pitch)
         } else {
 
             if(ballPt.x() > 0.3 ) {
-                xVel = 0.7;
+                xVel = 1;
             }
             else if(ballPt.x() < (-0.3)) {
-                xVel = (-0.7);
+                xVel = (-1);
             } else {
                 xVel = 0;
             }
         }
         if(whereCenter > goalHalfL || whereCenter < (-1)*goalHalfL ){
             //uwaga gdy poza TODO
-            xVel = 0;
+            if(whereCenter > goalHalfL){
+                xVel = 0.1;
+            }else {
+                xVel = -0.1;
+            }
         }
 
 
@@ -177,15 +186,19 @@ void Goalkeeper::updateState(const Pitch *pitch)
     //pole karne ~= 1/11 pitch.sizeY i 4/10 pitch.sizeY (czy 3/10?)
     if (up_side){
         if (this->y > pitch->sizeY/11) {
-            yVel = 0;
+            yVel = (-0.2);
         }
     }else {
         if (this->y < 10*pitch->sizeY/11) {
-            yVel = 0;
+            yVel = 0.2;
         }
     }
     if (this->x < 0.3*pitch->sizeX || this->x > 0.7*pitch->sizeX ) {
-        xVel = 0;
+        if(this->x < 0.3*pitch->sizeX){
+            xVel += 0.1;
+        }else {
+            xVel -= 0.1;
+        }
     }
 
 }
